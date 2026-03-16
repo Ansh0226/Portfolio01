@@ -16,7 +16,7 @@ https://nisha-portfolio.vercel.app
 
 ## 📸 Portfolio Preview
 
-![Portfolio Preview](public/images/preview.png)
+[![Portfolio Preview](public/images/preview.png)](https://nisha-portfolio.vercel.app)
 
 ---
 
