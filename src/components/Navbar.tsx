@@ -2,26 +2,14 @@ import { useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 import "./styles/Navbar.css";
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-export let smoother: ScrollSmoother;
+gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
-
-    smoother.scrollTop(0);
-    smoother.paused(true);
+    // Reset scroll position
+    window.scrollTo(0, 0);
 
     let links = document.querySelectorAll(".header ul a");
 
@@ -32,29 +20,32 @@ const Navbar = () => {
         if (window.innerWidth > 1024) {
           e.preventDefault();
 
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
+          let target = element.getAttribute("data-href");
 
-          smoother.scrollTo(section, true, "top top");
+          if (target) {
+            const section = document.querySelector(target);
+            section?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
         }
       });
     });
 
+    // Refresh GSAP on resize
     window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
+      ScrollTrigger.refresh();
     });
   }, []);
 
   return (
     <>
       <div className="header">
-
-        {/* Logo / Initial */}
         <a href="/#" className="navbar-title" data-cursor="disable">
           NR
         </a>
 
-        {/* Email */}
         <a
           href="mailto:rathournisha0310@gmail.com"
           className="navbar-connect"
@@ -63,7 +54,6 @@ const Navbar = () => {
           rathournisha0310@gmail.com
         </a>
 
-        {/* Navigation */}
         <ul>
           <li>
             <a data-href="#about" href="#about">
